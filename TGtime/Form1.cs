@@ -54,6 +54,9 @@ namespace TGtime
             settings = new Settings(this);
             Reload();
             InitializeComponent();
+            notifyIcon1.ContextMenuStrip = contextMenuStrip1;
+            notifyIcon1.Icon = SystemIcons.Asterisk;
+            notifyIcon1.Visible = false;
         }
 
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
@@ -64,10 +67,6 @@ namespace TGtime
         private void настройкиToolStripMenuItem_Click(object sender, EventArgs e)
         {
            settings.ShowDialog();
-        }
-
-        private void proxyСерверToolStripMenuItem_Click(object sender, EventArgs e)
-        { 
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -270,6 +269,30 @@ namespace TGtime
         private void авторToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Process.Start("https://github.com/Irval1337/TGTime");
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                notifyIcon1.Visible = true;
+                this.WindowState = FormWindowState.Minimized;
+                this.Hide();
+            }
+        }
+
+        private void notifyIcon1_DoubleClick(object sender, EventArgs e)
+        {
+            this.Show();
+            this.BringToFront();
+            this.WindowState = FormWindowState.Normal;
+            notifyIcon1.Visible = false;
+        }
+
+        private void выходToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
